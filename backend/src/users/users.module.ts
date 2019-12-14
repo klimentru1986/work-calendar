@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, HttpModule, HttpService } from '@nestjs/common';
 import { EntityModule } from '../entity/entity.module';
 import { UsersService } from './services/users.service';
 import { UsersController } from './users.controller';
@@ -7,16 +7,42 @@ import { LdapService } from './services/ldap.service';
 import { Config, getConfig } from '../config/config';
 import { AuthService } from './services/auth.service';
 import { JwtModule } from '@nestjs/jwt';
+import { TasksController } from './tasks.controller';
+import { TaskService } from './services/task.service';
+import { AvatarsController } from './avatars.controller';
+import { AvatarsService } from './services/avatars.service';
+import { ConfluenceAvatarService } from './services/confluence-avatars.service';
+import { DefaultAvatarsService } from './services/default-avatars.service';
+
+const avatarServiceProvider = {
+  provide: AvatarsService,
+  useFactory: (http: HttpService, config: Config) => {
+    if (config.FEATURE_AVATAR_SOURCE === 'CONFLUENCE') {
+      return new ConfluenceAvatarService(http, config);
+    } else {
+      return new DefaultAvatarsService(http);
+    }
+  },
+  inject: [HttpService, Config]
+};
 
 @Module({
   imports: [
+    HttpModule,
     EntityModule,
     JwtModule.register({
       secret: getConfig().JWT_SECRET_KEY,
       signOptions: { expiresIn: '60s' }
     })
   ],
-  controllers: [UsersController, AuthController],
-  providers: [UsersService, LdapService, AuthService, { provide: Config, useValue: getConfig() }]
+  controllers: [UsersController, AuthController, TasksController, AvatarsController],
+  providers: [
+    avatarServiceProvider,
+    UsersService,
+    LdapService,
+    AuthService,
+    TaskService,
+    { provide: Config, useValue: getConfig() }
+  ]
 })
 export class UsersModule {}

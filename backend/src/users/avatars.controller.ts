@@ -1,5 +1,5 @@
 import { Controller, Get, Header, Query, Res } from '@nestjs/common';
-import { AvatarsService } from './avatars.service';
+import { AvatarsService } from './services/avatars.service';
 import { ApiUseTags } from '@nestjs/swagger';
 
 @ApiUseTags('Avatars')
