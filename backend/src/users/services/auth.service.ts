@@ -28,8 +28,8 @@ export class AuthService {
   private async authLocal(credentials: LoginRequestModel) {
     const user = await this.usersService.getUserByLogin(credentials.username);
 
-    if (user[0] && user[0].hashPswd === crypto.createHmac('sha256', credentials.password).digest('hex')) {
-      return Promise.resolve(user[0]);
+    if (user && user.hashPswd === crypto.createHmac('sha256', credentials.password).digest('hex')) {
+      return Promise.resolve(user);
     }
 
     return Promise.reject('USER NOT FOUND');
@@ -43,8 +43,8 @@ export class AuthService {
       return Promise.reject('USER NOT FOUND');
     }
 
-    if (user.length) {
-      Promise.resolve(user[0]);
+    if (user) {
+      Promise.resolve(user);
     } else {
       const newUser = await this.usersService.addUser(ldapResult);
       Promise.resolve(newUser);

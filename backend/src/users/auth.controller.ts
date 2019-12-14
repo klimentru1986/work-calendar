@@ -30,7 +30,7 @@ export class AuthController {
     try {
       const ldapResult = await this.ldapService.auth(credentials, true);
       const result = await this.usersService.getUserByLogin(ldapResult.mailNickname);
-      if (result.length) {
+      if (result) {
         res.status(HttpStatus.NOT_ACCEPTABLE).send('USER ALREADY EXIST');
       } else {
         const newUser = await this.usersService.addUser(ldapResult);
@@ -45,7 +45,7 @@ export class AuthController {
   async registration(@Res() res, @Body() credentials: LoginRequestModel) {
     try {
       const result = await this.usersService.getUserByLogin(credentials.username);
-      if (result.length) {
+      if (result) {
         res.status(HttpStatus.NOT_ACCEPTABLE).send('USER ALREADY EXIST');
         return;
       }

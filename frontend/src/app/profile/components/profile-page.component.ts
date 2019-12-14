@@ -147,7 +147,6 @@ export class ProfilePageComponent implements OnInit, OnDestroy {
     this.searchUserByLoginSub.add(
       this.employeeApiService
         .searchUserByLogin(this.login)
-        .pipe(map(users => users[0]))
         .subscribe((user: Employee) => {
           this.initForm(user);
           this.setSelectedUser(user);
