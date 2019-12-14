@@ -10,9 +10,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { TasksController } from './tasks.controller';
 import { TaskService } from './services/task.service';
 import { AvatarsController } from './avatars.controller';
-import { AvatarsService } from './services/avatars.service';
-import { ConfluenceAvatarService } from './services/confluence-avatars.service';
-import { DefaultAvatarsService } from './services/default-avatars.service';
+import { AvatarsService } from './services/avatars/avatars.service';
+import { ConfluenceAvatarService } from './services/avatars/confluence-avatars.service';
+import { DefaultAvatarsService } from './services/avatars/default-avatars.service';
 import { SendMailService } from './services/send-mail.service';
 import { MailController } from './mail.controller';
 
