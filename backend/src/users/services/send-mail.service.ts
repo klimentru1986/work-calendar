@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Config, getConfig } from '../../config/config';
 import { SendMailRequestModel } from '../models/send-mail.request.model';
-const nodemailer = require('nodemailer');
-const config = getConfig();
+import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class SendMailService {
   constructor(private config: Config) {}
 
   public async sendMail(data: SendMailRequestModel): Promise<string> {
-    if (config.FEATURE_SEND_MAIL !== 'YES') {
+    if (this.config.FEATURE_SEND_MAIL !== 'YES') {
       return;
     }
 
