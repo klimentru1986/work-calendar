@@ -33,6 +33,7 @@
     "body-parser": "^1.19.0",
     "cfenv": "^1.2.2",
     "commander": "^3.0.2",
+    "cookie-parser": "^1.4.4",
     "dotenv": "^8.2.0",
     "express-session": "^1.17.0",
     "i": "^0.3.6",

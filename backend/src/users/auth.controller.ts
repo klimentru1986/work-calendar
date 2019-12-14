@@ -1,6 +1,4 @@
 import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
-import * as crypto from 'crypto';
-import { Config } from '../config/config';
 import { UsersService } from '../users/services/users.service';
 import { LoginRequestModel } from './models/login.request.model';
 import { LdapService } from './services/ldap.service';
@@ -22,7 +20,7 @@ export class AuthController {
   async auth(@Res() res: Response, @Body() credentials: LoginRequestModel) {
     try {
       const user = await this.authService.auth(credentials);
-      res.cookie('auth', this.jwtService.sign({ login: user.mailNickname, password: user.hashPswd }), {
+      res.cookie('JWT', this.jwtService.sign({ login: user.mailNickname, password: user.hashPswd }), {
         httpOnly: true
       });
       res.status(HttpStatus.OK).send(user);

@@ -1,4 +1,4 @@
-import { Module, HttpModule, HttpService } from '@nestjs/common';
+import { Module, HttpModule, HttpService, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { EntityModule } from '../entity/entity.module';
 import { UsersService } from './services/users.service';
 import { UsersController } from './users.controller';
@@ -15,6 +15,7 @@ import { ConfluenceAvatarService } from './services/avatars/confluence-avatars.s
 import { DefaultAvatarsService } from './services/avatars/default-avatars.service';
 import { SendMailService } from './services/send-mail.service';
 import { MailController } from './mail.controller';
+import { SharedModule } from '../shared/shared.module';
 
 const avatarServiceProvider = {
   provide: AvatarsService,
@@ -35,7 +36,8 @@ const avatarServiceProvider = {
     JwtModule.register({
       secret: getConfig().JWT_SECRET_KEY,
       signOptions: { expiresIn: '60s' }
-    })
+    }),
+    SharedModule
   ],
   controllers: [UsersController, AuthController, TasksController, AvatarsController, MailController],
   providers: [

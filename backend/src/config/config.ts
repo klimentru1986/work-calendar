@@ -20,6 +20,7 @@ export class Config {
   CONFLUENCE_LOGIN: string;
   CONFLUENCE_PASSWORD: string;
   JWT_SECRET_KEY: string;
+  JWT_EXPIRES: string;
 }
 
 let config;
