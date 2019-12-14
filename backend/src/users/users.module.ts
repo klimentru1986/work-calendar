@@ -13,6 +13,8 @@ import { AvatarsController } from './avatars.controller';
 import { AvatarsService } from './services/avatars.service';
 import { ConfluenceAvatarService } from './services/confluence-avatars.service';
 import { DefaultAvatarsService } from './services/default-avatars.service';
+import { SendMailService } from './services/send-mail.service';
+import { MailController } from './mail.controller';
 
 const avatarServiceProvider = {
   provide: AvatarsService,
@@ -35,13 +37,14 @@ const avatarServiceProvider = {
       signOptions: { expiresIn: '60s' }
     })
   ],
-  controllers: [UsersController, AuthController, TasksController, AvatarsController],
+  controllers: [UsersController, AuthController, TasksController, AvatarsController, MailController],
   providers: [
     avatarServiceProvider,
     UsersService,
     LdapService,
     AuthService,
     TaskService,
+    SendMailService,
     { provide: Config, useValue: getConfig() }
   ]
 })
