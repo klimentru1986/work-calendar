@@ -19,6 +19,7 @@ export class Config {
   CONFLUENCE_BASE_URL: string;
   CONFLUENCE_LOGIN: string;
   CONFLUENCE_PASSWORD: string;
+  JWT_SECRET_KEY: string;
 }
 
 let config;

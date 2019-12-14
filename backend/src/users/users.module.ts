@@ -5,10 +5,11 @@ import { UsersController } from './users.controller';
 import { AuthController } from './auth.controller';
 import { LdapService } from './services/ldap.service';
 import { Config, getConfig } from '../config/config';
+import { AuthService } from './services/auth.service';
 
 @Module({
   imports: [EntityModule],
   controllers: [UsersController, AuthController],
-  providers: [UsersService, LdapService, { provide: Config, useValue: getConfig() }],
+  providers: [UsersService, LdapService, AuthService, { provide: Config, useValue: getConfig() }],
 })
 export class UsersModule {}

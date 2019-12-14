@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { getConfig } from './config/config';
+import * as session from 'express-session';
+import * as passport from 'passport';
 
 const config = getConfig();
 
@@ -9,6 +11,16 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
+
+  app.use(
+    session({
+      secret: config.JWT_SECRET_KEY,
+      resave: false,
+      saveUninitialized: false
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   const options = new DocumentBuilder()
     .setTitle('Work-Calendar')
