@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from './auth/auth.module';
 import { AvatarsModule } from './avatars/avatars.module';
 import { Config, getConfig } from './config/config';
 import { DictionaryModule } from './dictionary/dictionary.module';
@@ -14,7 +13,6 @@ const url = `${config.DATABASE_URL}`;
 
 @Module({
   imports: [
-    AuthModule,
     MailModule,
     UsersModule,
     TasksModule,

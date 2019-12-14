@@ -13,8 +13,9 @@ export class Config {
   READER_PASSWORD: string;
   LDAP_SERVER_URL: string;
   LDAP_SUFFIX: string;
-  FEATURE_AVATAR_SOURCE: string;
-  FEATURE_AUTH_TYPE: string;
+  FEATURE_AVATAR_SOURCE: 'CONFLUENCE'|'NO';
+  FEATURE_AUTH_TYPE: 'PASSWORD'|'LDAP';
+  FEATURE_SEND_MAIL: 'YES' | 'NO';
   CONFLUENCE_BASE_URL: string;
   CONFLUENCE_LOGIN: string;
   CONFLUENCE_PASSWORD: string;
@@ -22,7 +23,7 @@ export class Config {
 
 let config;
 
-export function getConfig() {
+export function getConfig(): Config {
   const configPath = `./environments/${process.env.NODE_ENV || 'dev'}.env`;
   if (!config) {
     config = dotenv.parse(fs.readFileSync(configPath));

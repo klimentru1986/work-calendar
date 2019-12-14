@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as crypto from 'crypto';
 import { Model } from 'mongoose';
-import { LoginRequestModel } from '../../auth/models/login.request.model';
-import { UserEntity } from '../../entity/entities/login.entity.model';
-import { UserResponseModel } from '../models/user.request.model';
+import { UserEntity } from 'src/entity/entities/login.entity.model';
+import { UserResponseModel } from '../models/user.resonse.model';
+import { LoginRequestModel } from '../models/login.request.model';
 
 @Injectable()
 export class UsersService {
