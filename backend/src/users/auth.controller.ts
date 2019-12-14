@@ -6,6 +6,8 @@ import { LoginRequestModel } from './models/login.request.model';
 import { LdapService } from './services/ldap.service';
 import { ApiUseTags } from '@nestjs/swagger';
 import { AuthService } from './services/auth.service';
+import { Response } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @ApiUseTags('Auth')
 @Controller('auth')
@@ -13,12 +15,16 @@ export class AuthController {
   constructor(
     private readonly ldapService: LdapService,
     private readonly usersService: UsersService,
-    private authService: AuthService
+    private authService: AuthService,
+    private jwtService: JwtService
   ) {}
   @Post()
-  async auth(@Res() res, @Body() credentials: LoginRequestModel) {
+  async auth(@Res() res: Response, @Body() credentials: LoginRequestModel) {
     try {
       const user = await this.authService.auth(credentials);
+      res.cookie('auth', this.jwtService.sign({ login: user.mailNickname, password: user.hashPswd }), {
+        httpOnly: true
+      });
       res.status(HttpStatus.OK).send(user);
     } catch (e) {
       res.status(HttpStatus.NOT_ACCEPTABLE).send('USER NOT FOUND');

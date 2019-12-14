@@ -1,9 +1,10 @@
-import { Injectable, HttpStatus } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { LdapService } from './ldap.service';
 import { UsersService } from './users.service';
 import { Config } from '../../config/config';
 import { LoginRequestModel } from '../models/login.request.model';
 import * as crypto from 'crypto';
+import { UserEntity } from 'src/entity/entities/login.entity.model';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,7 @@ export class AuthService {
   ) {}
 
   async auth(credentials: LoginRequestModel) {
-    let user;
+    let user: UserEntity;
 
     if (this.config.FEATURE_AUTH_TYPE !== 'LDAP') {
       user = await this.authLocal(credentials);
@@ -25,7 +26,7 @@ export class AuthService {
     return user;
   }
 
-  private async authLocal(credentials: LoginRequestModel) {
+  private async authLocal(credentials: LoginRequestModel): Promise<UserEntity> {
     const user = await this.usersService.getUserByLogin(credentials.username);
 
     if (user && user.hashPswd === crypto.createHmac('sha256', credentials.password).digest('hex')) {
@@ -35,7 +36,7 @@ export class AuthService {
     return Promise.reject('USER NOT FOUND');
   }
 
-  private async authLdap(credentials: LoginRequestModel) {
+  private async authLdap(credentials: LoginRequestModel): Promise<UserEntity> {
     const user = await this.usersService.getUserByLogin(credentials.username);
     const ldapResult = await this.ldapService.auth(credentials);
 
