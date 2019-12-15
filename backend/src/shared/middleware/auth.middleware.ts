@@ -12,7 +12,9 @@ export class AuthMiddleware implements NestMiddleware {
       return;
     }
 
-    const cookies = req.cookies;
+    const cookies = req.signedCookies;
+
+    console.log(cookies);
 
     if (!cookies || !cookies.JWT) {
       throw new UnauthorizedException();

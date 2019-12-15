@@ -10,7 +10,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
-  app.use(cookieParser());
+  app.use(cookieParser(config.JWT_SECRET_KEY));
 
   const options = new DocumentBuilder()
     .setTitle('Work-Calendar')
